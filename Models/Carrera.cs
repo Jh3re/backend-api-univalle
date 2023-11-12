@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace backend_api_univalle.Models;
 
@@ -27,7 +28,8 @@ public partial class Carrera
 
     public DateTime? FechaCreacion { get; set; }
 
-    public virtual Facultad? Facultad { get; set; }
+    
+    public virtual Facultad? oFacultad { get; set; }
 
-    public virtual ICollection<Ubicacion> Ubicacions { get; set; } = new List<Ubicacion>();
+    public virtual ICollection<Ubicacion> Ubicaciones { get; set; } = new List<Ubicacion>();
 }

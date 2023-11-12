@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace backend_api_univalle.Models;
 
@@ -13,5 +14,6 @@ public partial class Departamento
 
     public DateTime? FechaCreacion { get; set; }
 
-    public virtual ICollection<Ubicacion> Ubicacions { get; set; } = new List<Ubicacion>();
+    [JsonIgnore]
+    public virtual ICollection<Ubicacion> Ubicaciones { get; set; } = new List<Ubicacion>();
 }

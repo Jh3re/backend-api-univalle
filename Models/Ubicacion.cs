@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace backend_api_univalle.Models;
 
@@ -11,7 +12,8 @@ public partial class Ubicacion
 
     public int? DepartamentoId { get; set; }
 
-    public virtual Carrera? Carrera { get; set; }
+    [JsonIgnore]
+    public virtual Carrera? oCarrera { get; set; }
 
-    public virtual Departamento? Departamento { get; set; }
+    public virtual Departamento? oDepartamento { get; set; }
 }
