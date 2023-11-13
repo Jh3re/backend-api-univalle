@@ -18,5 +18,6 @@ public partial class Facultad
 
     public DateTime? FechaCreacion { get; set; }
 
+    [JsonIgnore]
     public virtual ICollection<Carrera> Carreras { get; set; } = new List<Carrera>();
 }

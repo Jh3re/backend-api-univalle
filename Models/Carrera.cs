@@ -1,11 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text.Json.Serialization;
 
 namespace backend_api_univalle.Models;
 
 public partial class Carrera
 {
+    public Carrera()
+    {
+        Estado = true; 
+        FechaCreacion = DateTime.Now; 
+    }
+
     public int Id { get; set; }
 
     public string? Titulo { get; set; }
@@ -28,7 +35,7 @@ public partial class Carrera
 
     public DateTime? FechaCreacion { get; set; }
 
-    
+    [JsonIgnore]
     public virtual Facultad? oFacultad { get; set; }
 
     public virtual ICollection<Ubicacion> Ubicaciones { get; set; } = new List<Ubicacion>();
