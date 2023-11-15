@@ -35,7 +35,6 @@ public partial class Carrera
 
     public DateTime? FechaCreacion { get; set; }
 
-    [JsonIgnore]
     public virtual Facultad? oFacultad { get; set; }
 
     public virtual ICollection<Ubicacion> Ubicaciones { get; set; } = new List<Ubicacion>();

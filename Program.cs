@@ -18,6 +18,12 @@ builder.Services.AddControllers().AddJsonOptions(opt =>
     opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 
+var MisReglasCors = "ReglasCors";
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy(name: MisReglasCors, builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -26,6 +32,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(MisReglasCors);
 
 app.UseAuthorization();
 

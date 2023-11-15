@@ -119,6 +119,7 @@ namespace backend_api_univalle.Controllers
                 return StatusCode(StatusCodes.Status200OK, new { mensaje = ex.Message });
             }
         }
+
         // Admin Panel
         [HttpPut]
         [Route("Eliminar/{idFacultad:int}")]

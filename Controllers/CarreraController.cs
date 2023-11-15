@@ -4,8 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using backend_api_univalle.Models;
 using System;
 
+using Microsoft.AspNetCore.Cors;
+
 namespace backend_api_univalle.Controllers
 {
+    [EnableCors("ReglasCors")]
     [Route("api/[controller]")]
     [ApiController]
     public class CarreraController : ControllerBase
@@ -29,6 +32,42 @@ namespace backend_api_univalle.Controllers
                 return StatusCode(StatusCodes.Status200OK, new { mensaje = "ok", response = lista });
 
             } catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status200OK, new { mensaje = ex.Message, response = lista });
+            }
+        }
+        // Admin Panel
+        [HttpGet]
+        [Route("ListaActivos")]
+        public IActionResult ListarActivos()
+        {
+            List<Carrera> lista = new List<Carrera>();
+            try
+            {
+                lista = _dbcontext.Carreras.Include(f => f.oFacultad).Where(c => c.Estado == true).ToList();
+
+                return StatusCode(StatusCodes.Status200OK, new { mensaje = "ok", response = lista });
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status200OK, new { mensaje = ex.Message, response = lista });
+            }
+        }
+        // Admin Panel
+        [HttpGet]
+        [Route("ListaInactivos")]
+        public IActionResult ListarInactivos()
+        {
+            List<Carrera> lista = new List<Carrera>();
+            try
+            {
+                lista = _dbcontext.Carreras.Include(f => f.oFacultad).Where(c => c.Estado == false).ToList();
+
+                return StatusCode(StatusCodes.Status200OK, new { mensaje = "ok", response = lista });
+
+            }
+            catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status200OK, new { mensaje = ex.Message, response = lista });
             }
@@ -131,6 +170,30 @@ namespace backend_api_univalle.Controllers
             }
         }
 
+        // Admin Panel
+        [HttpPut]
+        [Route("Reestablecer/{idCarrera:int}")]
+        public IActionResult Reestablecer(int idCarrera)
+        {
+            Carrera oCarrera = _dbcontext.Carreras.Find(idCarrera);
+            if (oCarrera == null)
+            {
+                return BadRequest("Carrera no encontrada");
+            }
+            try
+            {
+                oCarrera.Estado = true;
+
+                _dbcontext.Carreras.Update(oCarrera);
+                _dbcontext.SaveChanges();
+
+                return StatusCode(StatusCodes.Status200OK, new { mensaje = "ok" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status200OK, new { mensaje = ex.Message });
+            }
+        }
         // Admin Panel
         [HttpPut]
         [Route("Eliminar/{idCarrera:int}")]
