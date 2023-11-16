@@ -50,6 +50,24 @@ namespace backend_api_univalle.Controllers
                 return StatusCode(StatusCodes.Status200OK, new { mensaje = ex.Message, response = lista });
             }
         }
+        // Web
+        [HttpGet]
+        [Route("ListaInactivos")]
+        public IActionResult ListarInactivos()
+        {
+            List<Facultad> lista = new List<Facultad>();
+            try
+            {
+                lista = _dbcontext.Facultades.Where(f => f.Estado == false).ToList();
+
+                return StatusCode(StatusCodes.Status200OK, new { mensaje = "ok", response = lista });
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status200OK, new { mensaje = ex.Message, response = lista });
+            }
+        }
 
         [HttpGet]
         [Route("Obtener/{idFacultad:int}")]
@@ -108,6 +126,30 @@ namespace backend_api_univalle.Controllers
                 oFacultad.Imagen = objeto.Imagen is null ? oFacultad.Imagen : objeto.Imagen;
                 oFacultad.Estado = objeto.Estado is null ? oFacultad.Estado : objeto.Estado;
                 oFacultad.FechaCreacion = objeto.FechaCreacion is null ? oFacultad.FechaCreacion : objeto.FechaCreacion;
+
+                _dbcontext.Facultades.Update(oFacultad);
+                _dbcontext.SaveChanges();
+
+                return StatusCode(StatusCodes.Status200OK, new { mensaje = "ok" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status200OK, new { mensaje = ex.Message });
+            }
+        }
+        // Admin Panel
+        [HttpPut]
+        [Route("Reestablecer/{idFacultad:int}")]
+        public IActionResult Reestablecer(int idFacultad)
+        {
+            Facultad oFacultad = _dbcontext.Facultades.Find(idFacultad);
+            if (oFacultad == null)
+            {
+                return BadRequest("Facultad no encontrada");
+            }
+            try
+            {
+                oFacultad.Estado = true;
 
                 _dbcontext.Facultades.Update(oFacultad);
                 _dbcontext.SaveChanges();

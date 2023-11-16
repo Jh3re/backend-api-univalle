@@ -82,7 +82,7 @@ namespace backend_api_univalle.Controllers
             List<Carrera> lista = new List<Carrera>();
             try
             {
-                lista = _dbcontext.Carreras.Include(u => u.Ubicaciones).ThenInclude(d => d.oDepartamento).Where(f => f.FacultadId == idFacultad && f.Estado == true).ToList();
+                lista = _dbcontext.Carreras.Include(f => f.oFacultad).Include(u => u.Ubicaciones).ThenInclude(d => d.oDepartamento).Where(f => f.FacultadId == idFacultad && f.Estado == true).ToList();
 
                 return StatusCode(StatusCodes.Status200OK, new { mensaje = "ok", response = lista });
 
